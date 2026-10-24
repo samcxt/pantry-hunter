@@ -4,8 +4,8 @@ Only exact, explicitly configured brand/size matches are eligible for recommenda
 """
 import json, os, re, sys, urllib.request, datetime, pathlib
 from collections import defaultdict
-ROOT=pathlib.Path(__file__).resolve().parents[1]
-DATA=ROOT/'data'; DATA.mkdir(exist_ok=True)
+ROOT=pathlib.Path(__file__).resolve().parent
+DATA=ROOT
 CONFIG=json.loads((ROOT/'watchlist.json').read_text())
 TODAY=datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds')
 ACTOR=os.getenv('APIFY_ACTOR','fairfetch~au-supermarket-prices')
