@@ -2,7 +2,7 @@ name: Update pantry prices
 on:
   workflow_dispatch:
   schedule:
-    - cron: '20 19 * * *' # 06:20 AEDT / 05:20 AEST
+    - cron: '20 19 * * 2' # Weekly Tuesday UTC / Wednesday Melbourne
 permissions:
   contents: write
 jobs:
@@ -14,8 +14,6 @@ jobs:
         with:
           python-version: '3.12'
       - name: Collect prices
-        env:
-          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
         run: python collect.py
       - name: Commit updated feed
         run: |
