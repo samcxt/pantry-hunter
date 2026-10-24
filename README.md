@@ -1,46 +1,37 @@
-# Pantry Hunter v0.2
+# Pantry Hunter v0.5
 
-A static, mobile-friendly pantry stock-up app with a scheduled supermarket-price feed. It **does not yet have a live feed** until you supply an Apify token and deploy it. Price results from third-party collectors should be independently verified before purchase.
+A static, mobile-friendly pantry stock-up app. Price results from third-party collectors should be independently verified before purchase.
 
-## Activate live prices (GitHub Pages)
+## Live prices
 
-1. Create an Apify account and confirm the [fairfetch Australian supermarket actor](https://apify.com/fairfetch/au-supermarket-prices) is available and its input/output schema still matches the configured collector. This is a third-party service, not an official supermarket API; charges and reliability may change.
-2. Upload this folder's contents to a **new GitHub repository**. For GitHub Pages deployment, use a **public repository** (published price JSON will be public; no token is published).
-3. In repository **Settings → Secrets and variables → Actions**, create a secret named `APIFY_TOKEN` with your token.
-4. In repository **Settings → Actions → General**, ensure workflows have read/write permissions, or configure job permissions to allow pushing updates. The included workflow requests `contents: write`.
-5. In **Actions → Update pantry prices → Run workflow**, trigger the first collection. Inspect logs and `data/latest.json`. If results don't match the expected schema, adjust `scripts/collect.py` before relying on prices.
-6. In **Settings → Pages**, publish from the `main` branch `/ (root)`. Visit the Pages link (HTTPS) and press **Check for updated prices**. The workflow schedules a daily run (GitHub can delay or suspend scheduled jobs).
+Coles and Woolworths prices come from a weekly job on Sam's own Majordomo household system, not from anything in this repo. The app loads `https://pantry-feed.runsam.au/feed.js` on start (and on demand via **Check for updated prices**) and shows the date prices were collected, with a warning if that's more than eight days old. There is no Apify token, collector script or GitHub Actions workflow in this repo any more - that approach (see git history) got blocked scraping Coles/Woolworths directly, and the replacement collector lives outside this repo entirely, buying data from CrawlPlant's Apify actors instead of scraping.
 
-Local preview: `python3 -m http.server 8000` in this folder, then open http://localhost:8000. Opening `index.html` directly may prevent network feed reads. To collect locally: `APIFY_TOKEN=... python3 scripts/collect.py`; never put a token in `index.html` or commit a `.env` file.
+Costco has no automated feed. Costco prices are entered once in Majordomo and travel to the app through the same weekly feed; refreshed every few months since they rarely change.
+
+The staples list (35 items, pack sizes, target months, price ceilings) is also maintained in Majordomo, not here. This repo only hosts the front end.
+
+## Hosting
+
+This app is published through Sam's household static-app host on a Synology NAS, as `pantry-hunter.runsam.au` - not GitHub Pages. Publishing is: copy `index.html` into the app's folder on the host and republish. There is no build step.
+
+Local preview: `python3 -m http.server 8000` in this folder, then open http://localhost:8000. Opening `index.html` directly may prevent the feed from loading (script-tag loads generally still work from `file://`, but a local server is more representative).
 
 ## Data rules
 
-- `watchlist.json` defines search queries and required/excluded title terms. Matching requires all configured terms; **verify matches and package sizes** because a substring match is not a guarantee of equivalent products.
-- `data/latest.json` stores matched offers and their reference price; `data/history.json` retains up to 180 days of daily snapshots.
-- Before at least four historical daily observations, reference price uses retailer-provided crossed-out price if available, otherwise current price. Thus a recommendation may legitimately be **zero**. After that, an observed-history median is used.
-- This is **not** a guarantee that the historical median represents the correct normal price; a stable discount/price-change will affect it. Historical comparisons are within item/size/store.
-- Offers older than three days are not loaded. Availability, postcode-dependent pricing, purchase limits, delivery fees, multipacks and supermarket terms are not verified. No checkout automation.
-- Settings and basket are browser-local; switching device/browser will not synchronize pantry preferences.
-- The scheduled collector is separate from the app and requires an API subscription/credits. No API secrets live in the front end.
+- `watchlist.json`/`catalogue.json` are historical references from this app's earlier iterations; Majordomo's `staples.json` is now the source of truth for the live feed.
+- Live offers are matched to pantry items by id. CSV import still matches by item name + size (case-insensitive) and remains the manual fallback - columns `item,store,price,reference_price,size,url` plus an optional `date`.
+- A buy recommendation requires a genuine special (or a price at/below its 30-day low), never a questionable one, under your price ceiling if you've set one, and cheaper than Costco per pack if a Costco price is on file. An item with too little price history yet is labelled rather than guessed at.
+- Offers older than three days are not loaded from CSV. Availability, postcode-dependent pricing, purchase limits, delivery fees, multipacks and supermarket terms are not verified. No checkout automation.
+- Settings and basket are browser-local; switching device/browser will not synchronise pantry preferences.
 
 ## CSV fallback
 
-The original CSV import still works without an account or live feed. Price CSV columns: `item,store,price,reference_price,size,url,date`.
+The original CSV import still works without an account or live feed, exactly as before.
 
 ## Testing
 
-`python3 -m unittest discover -s tests -v`
+No automated tests remain in this repo - `test_collector.py` and `test_retailers.py` tested the removed Python collector and were deleted with it. `index.html` has no test suite; verify changes by hand in a browser.
 
-## Household catalogue (v0.3)
-- `catalogue.json` contains 35 staples supplied by the household. Initial inventory, monthly use, and price ceiling default to zero (unknown); **pack sizes are provisional** until confirmed.
-- `watchlist.json` contains one preliminary search rule per item. Review retailer-specific naming and pack sizes before enabling automated purchases or trusting matching. Broad terms may return false positives.
-- The My Pantry panel has an educational alternative-brand dialog, including an explicitly dated baked-beans price comparison (not a live price). Future version should collect equivalent SKUs and compare prices per 100g/100mL while preserving the household's approval of substitutions.
-- Cheese: hard tasty/cheddar blocks can be frozen, although texture may become crumbly; best for cooking or grating after thawing in the refrigerator.
+## Retailers and shopping modes
 
-## Custom domain
-
-This repository includes `CNAME` set to `pantry.runsam.au` for GitHub Pages. Once the repository is created and Pages is enabled for the `main` branch root, set the custom domain in **Settings → Pages** to `pantry.runsam.au`. In the `runsam.au` DNS zone add a CNAME record for the `pantry` subdomain pointing to `samcxt.github.io` (not the repository-specific path). Once DNS resolves and GitHub provisions a certificate, enable **Enforce HTTPS**. Do not change existing records for other subdomains. A published GitHub Pages site remains public even if access to source changes.
-
-## Retailers and shopping modes (v0.4)
-
-Only **Coles, Woolworths and Costco** are compared. The scheduled Apify collector requests Coles and Woolworths only. **Costco is not claimed as automated**: import known Costco unit-equivalent prices via CSV until a dependable warehouse price feed exists. Costco multipacks should be normalised to comparable sizes before recommendation; factor membership, travel, freezer space and pack sizes into any stock-up decision. Coles/Woolworths are home-delivery options, Costco is a planned haul. Aldi is excluded.
+Only **Coles, Woolworths and Costco** are compared. Coles/Woolworths are home-delivery options, Costco is a planned haul - factor membership, travel, freezer space and pack sizes into any stock-up decision. Aldi is excluded.
