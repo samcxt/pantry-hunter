@@ -1,0 +1,402 @@
+[
+  {
+    "item": "Devondale Lite Protein Plus milk",
+    "size": "1L",
+    "query": "Devondale Lite Protein Plus milk 1L",
+    "required_terms": [
+      "devondale",
+      "lite",
+      "protein",
+      "plus",
+      "milk",
+      "1l"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Tuna \u2013 lemon & black pepper",
+    "size": "95g",
+    "query": "Tuna \u2013 lemon & black pepper 95g",
+    "required_terms": [
+      "tuna",
+      "black",
+      "pepper",
+      "95g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Tuna \u2013 chilli",
+    "size": "95g",
+    "query": "Tuna \u2013 chilli 95g",
+    "required_terms": [
+      "tuna",
+      "tuna",
+      "chilli",
+      "95g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Tuna \u2013 basil & tomato",
+    "size": "95g",
+    "query": "Tuna \u2013 basil & tomato 95g",
+    "required_terms": [
+      "tuna",
+      "basil",
+      "tomato",
+      "95g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Heinz baked beans",
+    "size": "420g",
+    "query": "Heinz baked beans 420g",
+    "required_terms": [
+      "heinz",
+      "baked",
+      "beans",
+      "420g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Diced tomatoes",
+    "size": "400g",
+    "query": "Diced tomatoes 400g",
+    "required_terms": [
+      "diced",
+      "tomatoes",
+      "400g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Crushed tomatoes",
+    "size": "400g",
+    "query": "Crushed tomatoes 400g",
+    "required_terms": [
+      "crushed",
+      "tomatoes",
+      "400g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Pasta",
+    "size": "500g",
+    "query": "Pasta 500g",
+    "required_terms": [
+      "pasta",
+      "500g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Cadbury chocolate block",
+    "size": "180g",
+    "query": "Cadbury chocolate block 180g",
+    "required_terms": [
+      "cadbury",
+      "chocolate",
+      "180g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Diet Rite cordial",
+    "size": "1L",
+    "query": "Diet Rite cordial 1L",
+    "required_terms": [
+      "diet",
+      "rite",
+      "cordial",
+      "1l"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Heinz tomato ketchup",
+    "size": "500mL",
+    "query": "Heinz tomato ketchup 500mL",
+    "required_terms": [
+      "heinz",
+      "tomato",
+      "ketchup",
+      "500ml"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Sirena tuna & brown rice combo",
+    "size": "185g",
+    "query": "Sirena tuna & brown rice combo 185g",
+    "required_terms": [
+      "sirena",
+      "tuna",
+      "brown",
+      "rice",
+      "combo",
+      "185g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Sardines",
+    "size": "100g",
+    "query": "Sardines 100g",
+    "required_terms": [
+      "sardines",
+      "100g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Smoked oysters",
+    "size": "85g",
+    "query": "Smoked oysters 85g",
+    "required_terms": [
+      "smoked",
+      "oysters",
+      "85g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Rice crackers",
+    "size": "100g",
+    "query": "Rice crackers 100g",
+    "required_terms": [
+      "rice",
+      "crackers",
+      "100g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Rice cakes",
+    "size": "150g",
+    "query": "Rice cakes 150g",
+    "required_terms": [
+      "rice",
+      "cakes",
+      "150g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Cooking oil",
+    "size": "1L",
+    "query": "Cooking oil 1L",
+    "required_terms": [
+      "cooking",
+      "oil",
+      "1l"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Olive oil",
+    "size": "1L",
+    "query": "Olive oil 1L",
+    "required_terms": [
+      "olive",
+      "oil",
+      "1l"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Tomato paste",
+    "size": "140g",
+    "query": "Tomato paste 140g",
+    "required_terms": [
+      "tomato",
+      "paste",
+      "140g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Tomato passata",
+    "size": "700g",
+    "query": "Tomato passata 700g",
+    "required_terms": [
+      "tomato",
+      "passata",
+      "700g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Dijon mustard",
+    "size": "200g",
+    "query": "Dijon mustard 200g",
+    "required_terms": [
+      "dijon",
+      "mustard",
+      "200g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Kids Weet-Bix",
+    "size": "575g",
+    "query": "Kids Weet-Bix 575g",
+    "required_terms": [
+      "weet",
+      "bix",
+      "575g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Cholula hot sauce",
+    "size": "150mL",
+    "query": "Cholula hot sauce 150mL",
+    "required_terms": [
+      "cholula",
+      "hot",
+      "sauce",
+      "150ml"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Nutri-Grain",
+    "size": "470g",
+    "query": "Nutri-Grain 470g",
+    "required_terms": [
+      "nutri",
+      "grain",
+      "470g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Mildura black tea bags",
+    "size": "100 pack",
+    "query": "Mildura black tea bags 100 pack",
+    "required_terms": [
+      "mildura",
+      "black",
+      "tea",
+      "bags",
+      "100 pack"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Cat food sachets",
+    "size": "85g",
+    "query": "Cat food sachets 85g",
+    "required_terms": [
+      "cat",
+      "food",
+      "sachets",
+      "85g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Sirena tuna large can",
+    "size": "425g",
+    "query": "Sirena tuna large can 425g",
+    "required_terms": [
+      "sirena",
+      "tuna",
+      "425g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Tabasco sauce",
+    "size": "60mL",
+    "query": "Tabasco sauce 60mL",
+    "required_terms": [
+      "tabasco",
+      "sauce",
+      "60ml"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Ribena Lite",
+    "size": "850mL",
+    "query": "Ribena Lite 850mL",
+    "required_terms": [
+      "ribena",
+      "lite",
+      "850ml"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Doritos",
+    "size": "150g",
+    "query": "Doritos 150g",
+    "required_terms": [
+      "doritos",
+      "150g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Thins Light & Tangy chips",
+    "size": "175g",
+    "query": "Thins Light & Tangy chips 175g",
+    "required_terms": [
+      "thins",
+      "light",
+      "tangy",
+      "chips",
+      "175g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Cobs popcorn",
+    "size": "100g",
+    "query": "Cobs popcorn 100g",
+    "required_terms": [
+      "cobs",
+      "popcorn",
+      "100g"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Chicken wings",
+    "size": "1kg",
+    "query": "Chicken wings 1kg",
+    "required_terms": [
+      "chicken",
+      "wings",
+      "1kg"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Beef mince",
+    "size": "1kg",
+    "query": "Beef mince 1kg",
+    "required_terms": [
+      "beef",
+      "mince",
+      "1kg"
+    ],
+    "exclude_terms": []
+  },
+  {
+    "item": "Tasty cheese block",
+    "size": "1kg",
+    "query": "Tasty cheese block 1kg",
+    "required_terms": [
+      "tasty",
+      "cheese",
+      "1kg"
+    ],
+    "exclude_terms": []
+  }
+]
