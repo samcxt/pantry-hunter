@@ -30,6 +30,7 @@ const allowedStores=['Coles','Woolworths','Costco'];
 function canonicalStore(v){const s=normal(v);return s.includes('woolworth')?'Woolworths':s.includes('coles')?'Coles':s.includes('costco')?'Costco':null;}
 
 let costcoByItemId={};
+let amazonByItemId={};
 function offerQualifies(offer,item){
  if(!offer)return false;
  if(offer.verdict){
@@ -37,15 +38,18 @@ function offerQualifies(offer,item){
    const genuineOrLow=offer.verdict==='genuine'||(Number.isFinite(offer.lowestPrice30d)&&offer.price<=offer.lowestPrice30d);
    if(!genuineOrLow)return false;
    if(item.threshold>0&&offer.price>item.threshold)return false;
-   const costco=costcoByItemId[item.id];
-   if(costco&&Number.isFinite(costco.perPackEquivalent)&&offer.price>costco.perPackEquivalent)return false;
+   for(const benchmarks of [costcoByItemId,amazonByItemId]){
+     const b=benchmarks[item.id];
+     if(b&&Number.isFinite(b.perPackEquivalent)&&offer.price>b.perPackEquivalent)return false;
+   }
    return true;
  }
  return offer.price<=item.threshold&&offer.reference_price>offer.price;
 }
 function candidates(){return items.map(item=>{let rows=offers.filter(o=>o.id?o.id===item.id:(canonicalStore(o.store)&&normal(o.item)===normal(item.name)&&normal(o.size)===normal(item.size))).filter(o=>Number.isFinite(+o.price)&&+o.price>0);rows.sort((a,b)=>a.price-b.price);const offer=rows[0];const need=Math.max(0,Math.ceil(item.usage*item.target-item.stock));const qualify=offerQualifies(offer,item)&&need>0;return {...item,offer,need,qualify,score:qualify?need*(offer.reference_price-offer.price):0}}).sort((a,b)=>b.score-a.score)}
 function verdictLabel(offer){if(!offer||!offer.verdict)return null;if(offer.verdict==='genuine')return'GENUINE SPECIAL';if(Number.isFinite(offer.lowestPrice30d)&&offer.price<=offer.lowestPrice30d)return'AT 30-DAY LOW';if(offer.verdict==='insufficient-history')return'NOT ENOUGH HISTORY YET';return null}
-function costcoLine(id){const c=costcoByItemId[id];if(!c||!Number.isFinite(+c.perPackEquivalent))return'';return' · Costco '+money(c.perPackEquivalent)+' per pack'+(c.dateRecorded?' ('+esc(c.dateRecorded)+')':'')}
+function benchmarkLine(label,b){if(!b||!Number.isFinite(+b.perPackEquivalent))return'';return' · '+label+' '+money(b.perPackEquivalent)+' per pack'+(b.dateRecorded?' ('+esc(b.dateRecorded)+')':'')}
+function costcoLine(id){return benchmarkLine('Costco',costcoByItemId[id])+benchmarkLine('Amazon',amazonByItemId[id])}
 function render(){const cs=candidates(),good=cs.filter(x=>x.qualify);for(const c of good){if(cart[c.id]===undefined)cart[c.id]=c.need}const selected=cs.filter(c=>c.offer&&cart[c.id]>0);let spend=selected.reduce((s,c)=>s+cart[c.id]*c.offer.price,0),saved=selected.reduce((s,c)=>s+cart[c.id]*Math.max(0,c.offer.reference_price-c.offer.price),0);document.getElementById('numDeals').textContent=good.length;document.getElementById('savings').textContent=money(saved);document.getElementById('spend').textContent=money(spend);document.getElementById('dataTag').textContent=mode==='demo'?'DEMO PRICES':mode==='live'?'SYNCED PRICES':'IMPORTED DATA';
  const staleNotice=mode==='live'&&feedStale?' <b>This feed is more than 8 days old — check the weekly job is still running.</b>':'';
  document.getElementById('notice').innerHTML=mode==='live'?'<b>Synced prices:</b> Last collected '+esc(importDate||'unknown')+'.'+staleNotice+' Check stock, location and live retailer pages before buying.':mode==='demo'?'<b>Prototype:</b> Prices below are illustrative, not current retailer offers. Upload a price CSV to calculate recommendations using your own data. Changes save automatically on this device.':'<b>Imported prices:</b> These are your supplied offers'+(importDate?' (imported '+esc(importDate)+')':'')+'. Check validity, store location and availability before purchasing.';document.getElementById('dataStatus').textContent=mode==='demo'?'Illustrative seed data':(mode==='live'?'Synced ':'Imported ')+offers.length+' offer rows';
@@ -97,9 +101,10 @@ async function syncFeed(silent=false){
  lastFeed=feed;
  const ageDays=(Date.now()-new Date(feed.collectedAt||feed.date).getTime())/86400000;
  const stale=!Number.isFinite(ageDays)||ageDays>8;
- const validated=[];costcoByItemId={};
+ const validated=[];costcoByItemId={};amazonByItemId={};
  for(const it of feed.items){
    if(it.costco)costcoByItemId[it.id]=it.costco;
+   if(it.amazon)amazonByItemId[it.id]=it.amazon;
    for(const key of ['coles','woolworths']){
      const o=it[key];
      if(!o||!Number.isFinite(+o.price)||+o.price<=0)continue;
